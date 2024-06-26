@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+    body {
+        margin: 0;
+    }
+
+    .box {
+        display: grid;
+        grid-template: repeat(3, 1fr) / repeat(4, 1fr);
+        gap: 10px 10px;
+    }
+
+    .box>img.show {
+        filter: blur(2px);
+        animation: gradientBG 2s ease infinite;
+    }
+    .box>img {
+        width: 100%;
+        background: linear-gradient(10deg, #f7f7f7, #ffffff, #8f8f8f, #f8f8f8);
+        background-size: 400% 400%;
+    }
+
+    @keyframes gradientBG {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+</style>
+
+<body>
+    <div class="box">
+        <img src="" alt="" class="show"><img src="" alt="" class="show"><img src="" alt="" class="show"><img src=""
+            alt="" class="show"><img src="" alt="" class="show"><img src="" alt="" class="show"><img src="" alt=""
+            class="show"><img src="" alt="" class="show"><img src="" alt="" class="show"><img src="" alt=""
+            class="show">
+        <img class="show" src="" data-src="./images/1.jpg" alt="">
+        <img class="show" src="" data-src="./images/2.jpg" alt="">
+        <img class="show" src="" data-src="./images/3.jpg" alt="">
+        <img class="show" src="" data-src="./images/4.jpg" alt="">
+        <img class="show" src="" data-src="./images/5.jpg" alt="">
+        <img class="show" src="" data-src="./images/6.jpg" alt="">
+        <img class="show" src="" data-src="./images/7.jpg" alt="">
+        <img class="show" src="" data-src="./images/8.jpg" alt="">
+        <img class="show" src="" data-src="./images/9.jpg" alt="">
+        <img class="show" src="" data-src="./images/10.jpg" alt="">
+        <img class="show" src="" data-src="./images/11.png" alt="">
+    </div>
+
+    <script>
+        let box = document.querySelector(".box")
+        let images = document.querySelectorAll(".box img.show")
+        const io = new IntersectionObserver(callback, {});
+        for (let index = 0; index < images.length; index++) {
+            const element = images[index];
+            io.observe(element)
+        }
+        function callback(params) {
+            params.forEach((entry) => {
+                if (entry.isIntersecting) { 
+                    const $target = entry.target
+                    const src = $target.getAttribute('data-src')
+                    if (src) {
+                        $target.setAttribute('src', src) 
+                        $target.classList.remove("show")
+                    }
+                    io.unobserve($target) 
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>
