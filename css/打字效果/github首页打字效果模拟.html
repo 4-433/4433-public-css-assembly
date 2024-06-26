@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        background-color: #040d21;
+        height: 200vh;
+    }
+
+    .box {
+        padding: 20px;
+        color: #8193b2;
+        border: 1px solid #202637;
+    }
+
+    .dis,
+    .dis1 {
+        display: inline-block;
+        position: relative;
+    }
+
+    .input-show {
+        display: none;
+    }
+
+    .show::after {
+        content: "";
+        position: absolute;
+        top: 4px;
+        margin-left: 4px;
+        height: 16px;
+        width: 2px;
+        background-color: white;
+        animation: showA .4s infinite;
+    }
+
+    .input-emile {
+        background-color: #040d21;
+        caret-color: rgb(255, 255, 255);
+    }
+
+    @keyframes showA {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+</style>
+
+<body>
+    <div class="box">
+        <p class="dis"></p>
+        <br>
+        <p class="dis1"></p>
+        <div>
+            <input class="input-emile input-show" type="text">
+        </div>
+    </div>
+    <script>
+
+        async function render(arr, className) {
+            for (let index = 0; index < arr.length; index++) {
+                const element = arr[index];
+                element.dom.classList.add(className)
+                let temp = '';
+                let strArr = element.text.split("")
+                for (let index = 0; index < strArr.length; index++) {
+                    const str = strArr[index];
+                    temp += str;
+                    await new Promise((res) => setTimeout(() => (element.dom.innerText = temp, res()), 60))
+                }
+                element.dom.classList.remove(className)
+            }
+        }
+
+
+        window.onload = async () => {
+            const className = "show";
+            let arr = [
+                { dom: document.querySelector(".box .dis"), text: "Welcome to GitHub!" },
+                { dom: document.querySelector(".box .dis1"), text: "Let’s begin the adventure" }
+            ]
+            await render(arr, className);
+            let input = document.querySelector(".input-emile")
+            input.classList.remove("input-show");
+            input.focus();
+        }
+    </script>
+</body>
+
+</html>
